@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Lazeez Curry and Pizza INC in Auburn, WA. Authentic Indian curries, pizza, appetizers, biryani, desserts, pickup, and delivery.">
+  <title>Lazeez Curry and Pizza</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="logo.png">
+</head>
+
+<body>
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Lazeez Curry and Pizza home">
+        <img src="logo.png" alt="Lazeez Curry and Pizza logo">
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainNav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="#top">Home</a>
+        <a href="#categories">Categories</a>
+        <a href="#menu">Menu</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <a class="btn btn-primary header-cta" data-order-link href="#">Order Now</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="section-kicker">Authentic Indian Flavor</p>
+          <h1>Lazeez Curry and Pizza</h1>
+          <p class="hero-text">
+            Fresh curries, pizza, biryani, appetizers, naan, drinks, and desserts served in Auburn, Washington.
+            Pickup or delivery in just a few clicks.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" data-order-link href="#">Order Now</a>
+            <a class="btn btn-secondary" data-phone-link href="tel:2069637663">Call (206) 963-7663</a>
+          </div>
+
+          <div class="hero-meta">
+            <div class="hero-meta__item">
+              <span class="hero-meta__label">Location</span>
+              <p>1119 E Main St, Auburn, WA 98002</p>
+            </div>
+            <div class="hero-meta__item">
+              <span class="hero-meta__label">Restaurant</span>
+              <p>Lazeez Curry and Pizza INC</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-art">
+          <div class="hero-art__shape"></div>
+          <img class="hero-art__main" src="https://restina.codelayers.net/images/banner_img.png"
+            alt="Restaurant hero food display">
+          <img class="hero-art__badge" src="logo.png" alt="Lazeez logo badge">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-heading__icon">
+            <img src="https://restina.codelayers.net/images/heading_shapes_1.png" alt="" aria-hidden="true">
+          </div>
+          <div>
+            <p class="section-kicker">Our Popular category</p>
+            <h2>Customer favorites at Lazeez</h2>
+          </div>
+        </div>
+
+        <div class="category-strip" id="popularCategories"></div>
+      </div>
+    </section>
+
+    <section class="section promos-section">
+      <div class="container promos-grid">
+        <article class="promo-card promo-card--large">
+          <div class="promo-card__content">
+            <h3>The best Curry and Pizza place in town</h3>
+            <a class="btn-link" data-order-link href="#">order now <i class="fa-solid fa-circle-chevron-right"></i></a>
+          </div>
+        </article>
+
+        <article class="promo-card promo-card--small">
+          <div class="promo-card__content">
+            <h3>Fresh drinks, naan, and Indian classics</h3>
+            <a class="btn-link" data-order-link href="#">order now <i class="fa-solid fa-circle-chevron-right"></i></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section menu-section" id="menu">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <p class="section-kicker">Delicious Menu</p>
+          <h2>Delicious Menu</h2>
+        </div>
+
+        <div class="menu-tabs" id="categoryNav" aria-label="Menu categories"></div>
+        <div id="menuCatalog" class="menu-catalog"></div>
+      </div>
+    </section>
+
+    <section class="section special-offer-section">
+      <div class="container">
+        <div class="special-offer">
+          <div class="special-offer__art">
+            <img class="special-offer__shape" src="https://restina.codelayers.net/images/add_banner_full_img_shapes.png"
+              alt="" aria-hidden="true">
+            <img class="special-offer__dish" src="karahi.png" alt="Special offer dish">
+          </div>
+
+          <div class="special-offer__copy">
+            <p class="section-kicker">Today special offer</p>
+            <h2>Delicious food with us.</h2>
+            <p>
+              Order your Lazeez favorites online for pickup or delivery. Curries, biryani, tandoori specials,
+              vegetarian entrees, pizza, sweets, and more.
+            </p>
+            <a class="btn btn-primary" data-order-link href="#">
+              <i class="fa-solid fa-bag-shopping"></i>
+              Order Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section order-section" id="contact">
+      <div class="container order-grid">
+        <div class="order-visual">
+          <p class="order-visual__eyebrow">Lazeez Auburn</p>
+          <div class="order-visual__frame">
+            <div class="order-visual__backdrop" aria-hidden="true"></div>
+            <div class="order-visual__panel">
+              <div class="order-visual__top">
+                <img class="order-visual__brand-logo" src="logo.png" alt="Lazeez logo">
+                <div class="order-visual__intro">
+                  <span class="order-visual__pill">Pickup and Delivery</span>
+                  <h3>Lazeez Curry and Pizza INC</h3>
+                  <p>Fresh Indian curries, biryani, pizza, bread, and desserts in Auburn, Washington.</p>
+                </div>
+              </div>
+
+              <div class="order-visual__stats">
+                <div class="order-visual__stat">
+                  <strong>14+</strong>
+                  <span>Categories</span>
+                </div>
+                <div class="order-visual__stat">
+                  <strong>100+</strong>
+                  <span>Fresh dishes</span>
+                </div>
+                <div class="order-visual__stat">
+                  <strong>1</strong>
+                  <span>Auburn location</span>
+                </div>
+              </div>
+
+              <div class="order-visual__dishes">
+              </div>
+
+              <div class="order-visual__badge">
+                <span>Call Lazeez</span>
+                <strong>(206) 963-7663</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-copy">
+          <p class="section-kicker">Pickup and Delivery</p>
+          <h2>Are you Ready to Start your Order?</h2>
+          <p class="order-copy__text">
+            Place your order online, call the restaurant directly, or visit us in Auburn for fresh Indian curry and
+            pizza.
+          </p>
+
+          <div class="contact-cards">
+            <article class="contact-card">
+              <span class="contact-card__label">Call us</span>
+              <a data-phone-link href="tel:2069637663">(206) 963-7663</a>
+            </article>
+            <article class="contact-card">
+              <span class="contact-card__label">Visit us</span>
+              <p>1119 E Main St, Auburn, WA 98002, USA</p>
+            </article>
+          </div>
+
+          <div class="order-actions">
+            <a class="btn btn-primary" data-order-link href="#">Order Online</a>
+            <a class="btn btn-secondary" data-phone-link href="tel:2069637663">Call Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-section">
+      <div class="container stats-grid">
+        <article class="stat-card">
+          <div class="stat-card__value" data-stat="items">0</div>
+          <div class="stat-card__label">Dishes</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-card__value" data-stat="categories">0</div>
+          <div class="stat-card__label">Categories</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-card__value">1</div>
+          <div class="stat-card__label">Location</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-card__value">100</div>
+          <div class="stat-card__label">Fresh Daily</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section highlights-section">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <p class="section-kicker">House Picks</p>
+          <h2>Signature Plates & Sweets</h2>
+        </div>
+
+        <div id="featuredCards" class="featured-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-column footer-brand">
+        <a class="footer-brand__logo" href="#top">
+          <img src="logo.png" alt="Lazeez Curry and Pizza logo">
+        </a>
+        <p>
+          Authentic Indian curries, tandoori dishes, biryani, pizza, drinks, and desserts in Auburn, Washington.
+        </p>
+        <a class="footer-brand__link" data-order-link href="#">Order Online</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Our Menu</h3>
+        <ul id="footerMenu" class="footer-list"></ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Resources</h3>
+        <ul class="footer-list">
+          <li><a href="#top">Home</a></li>
+          <li><a href="#categories">Categories</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Location</h3>
+        <ul class="footer-contact">
+          <li>Lazeez Curry and Pizza INC</li>
+          <li><a data-phone-link href="tel:2069637663">(206) 963-7663</a></li>
+          <li>1119 E Main St, Auburn, WA 98002, USA</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-managed-by">
+      <div class="container footer-managed-inner">
+        <a href="https://order-xperts.com/" target="_blank" rel="noopener noreferrer" class="managed-group">
+          <div class="managed-logo-wrap">
+            <img src="orderxpert.png" alt="Order Xperts Logo" class="managed-logo">
+          </div>
+          <p class="managed-text">Managed by Order Xperts</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom__inner">
+        <p>&copy; <span id="year"></span> Lazeez Curry and Pizza. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="menu-data.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
