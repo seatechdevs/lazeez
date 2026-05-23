@@ -266,16 +266,20 @@ setOrderLinks();
 buildMenuCatalog();
 setupHeaderState();
 
-// ── Announcement Banner ──────────────────────────────────
+// ── Announcement Popup ──────────────────────────────────
 function initAnnounceBanner() {
-  const bar = document.getElementById("announceBar");
-  const textEl = document.getElementById("announceText");
+  const overlay = document.getElementById("announceOverlay");
+  const badge = document.getElementById("announceBadge");
+  const titleEl = document.getElementById("announceTitle");
+  const subtitleEl = document.getElementById("announceSubtitle");
+  const dateBox = document.getElementById("announceDateBox");
   const ctaLink = document.getElementById("announceCtaLink");
   const closeBtn = document.getElementById("announceClose");
+  const dismissBtn = document.getElementById("announceDismiss");
 
-  if (!bar || !textEl) return;
+  if (!overlay || !titleEl) return;
 
-  // Opening date: Tuesday, May 27 2025, midnight local time
+  // Opening date: Tuesday, May 26 2026, midnight local time
   const OPEN_DATE = new Date("2026-05-26T00:00:00");
   const now = new Date();
   const isOpen = now >= OPEN_DATE;
@@ -283,24 +287,37 @@ function initAnnounceBanner() {
   // Don't show again if user dismissed this session
   const dismissedKey = isOpen ? "announce_dismissed_open" : "announce_dismissed_coming";
   if (sessionStorage.getItem(dismissedKey)) {
-    bar.classList.add("is-hidden");
+    overlay.classList.add("is-hidden");
     return;
   }
 
+  function closePopup() {
+    overlay.classList.add("is-hidden");
+    sessionStorage.setItem(dismissedKey, "1");
+  }
+
   if (isOpen) {
-    // Post-opening state — gold banner
-    bar.classList.add("is-open");
-    textEl.innerHTML = `<strong>We're Now Open!</strong> &nbsp;Lazeez Curry &amp; Pizza — Come taste the difference.`;
+    // Post-opening state
+    badge.textContent = "🎉 Now Open";
+    badge.classList.add("is-open");
+    titleEl.textContent = "We're Now Open!";
+    subtitleEl.textContent = "Lazeez Curry & Pizza is ready to serve you. Order online for pickup or delivery today.";
     ctaLink.style.display = "inline-flex";
     ctaLink.href = ORDER_URL;
   } else {
-    // Pre-opening state — red banner
-    textEl.innerHTML = `<strong>Grand Opening — Tuesday, May 26th!</strong> &nbsp;Lazeez Curry &amp; Pizza. Mark your calendars!`;
+    // Pre-opening state
+    badge.textContent = "Coming Soon";
+    titleEl.textContent = "Grand Opening";
+    subtitleEl.textContent = "Lazeez Curry & Pizza. Mark your calendars — we can't wait to serve you!";
+    dateBox.style.display = "flex";
   }
 
-  closeBtn.addEventListener("click", () => {
-    bar.classList.add("is-hidden");
-    sessionStorage.setItem(dismissedKey, "1");
+  closeBtn.addEventListener("click", closePopup);
+  dismissBtn.addEventListener("click", closePopup);
+
+  // Close when clicking the backdrop
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closePopup();
   });
 }
 

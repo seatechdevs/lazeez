@@ -20,15 +20,33 @@
 </head>
 
 <body>
-  <!-- Announcement Banner -->
-  <div class="announce-bar" id="announceBar" role="banner" aria-label="Announcement">
-    <div class="announce-bar__inner container">
-      <span class="announce-bar__icon" aria-hidden="true">🎉</span>
-      <p class="announce-bar__text" id="announceText"></p>
-      <a class="announce-bar__cta" id="announceCtaLink" href="#" data-order-link style="display:none;">Order Online
-        &rarr;</a>
+  <!-- Announcement Popup -->
+  <div class="announce-overlay" id="announceOverlay" role="dialog" aria-modal="true" aria-labelledby="announceTitle">
+    <div class="announce-popup" id="announcePopup">
+      <button class="announce-popup__close" id="announceClose" aria-label="Close announcement">&#x2715;</button>
+
+      <div class="announce-popup__badge" id="announceBadge"></div>
+
+      <div class="announce-popup__logo">
+        <img src="logo.png" alt="Lazeez Curry and Pizza">
+      </div>
+
+      <h2 class="announce-popup__title" id="announceTitle"></h2>
+      <p class="announce-popup__subtitle" id="announceSubtitle"></p>
+
+      <div class="announce-popup__date" id="announceDateBox" style="display:none;">
+        <span class="announce-popup__date-label">Opening Day</span>
+        <strong class="announce-popup__date-value">Tuesday, May 26th</strong>
+      </div>
+
+      <div class="announce-popup__actions">
+        <a class="announce-popup__cta btn btn-primary" id="announceCtaLink" href="#" data-order-link
+          style="display:none;">
+          <i class="fa-solid fa-bag-shopping"></i> Order Online
+        </a>
+        <button class="announce-popup__dismiss" id="announceDismiss">Got it, thanks!</button>
+      </div>
     </div>
-    <button class="announce-bar__close" id="announceClose" aria-label="Dismiss announcement">&#x2715;</button>
   </div>
 
   <header class="site-header" id="top">
