@@ -265,3 +265,43 @@ document.getElementById("year").textContent = new Date().getFullYear();
 setOrderLinks();
 buildMenuCatalog();
 setupHeaderState();
+
+// ── Announcement Banner ──────────────────────────────────
+function initAnnounceBanner() {
+  const bar = document.getElementById("announceBar");
+  const textEl = document.getElementById("announceText");
+  const ctaLink = document.getElementById("announceCtaLink");
+  const closeBtn = document.getElementById("announceClose");
+
+  if (!bar || !textEl) return;
+
+  // Opening date: Tuesday, May 27 2025, midnight local time
+  const OPEN_DATE = new Date("2026-05-26T00:00:00");
+  const now = new Date();
+  const isOpen = now >= OPEN_DATE;
+
+  // Don't show again if user dismissed this session
+  const dismissedKey = isOpen ? "announce_dismissed_open" : "announce_dismissed_coming";
+  if (sessionStorage.getItem(dismissedKey)) {
+    bar.classList.add("is-hidden");
+    return;
+  }
+
+  if (isOpen) {
+    // Post-opening state — gold banner
+    bar.classList.add("is-open");
+    textEl.innerHTML = `<strong>We're Now Open!</strong> &nbsp;Lazeez Curry &amp; Pizza — Come taste the difference.`;
+    ctaLink.style.display = "inline-flex";
+    ctaLink.href = ORDER_URL;
+  } else {
+    // Pre-opening state — red banner
+    textEl.innerHTML = `<strong>Grand Opening — Tuesday, May 26th!</strong> &nbsp;Lazeez Curry &amp; Pizza. Mark your calendars!`;
+  }
+
+  closeBtn.addEventListener("click", () => {
+    bar.classList.add("is-hidden");
+    sessionStorage.setItem(dismissedKey, "1");
+  });
+}
+
+initAnnounceBanner();
