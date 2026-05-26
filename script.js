@@ -280,7 +280,7 @@ function initAnnounceBanner() {
   if (!overlay || !titleEl) return;
 
   // Opening date: Tuesday, May 26 2026, midnight local time
-  const OPEN_DATE = new Date("2026-05-26T00:00:00");
+  const OPEN_DATE = new Date("2026-05-28T00:00:00");
   const now = new Date();
   const isOpen = now >= OPEN_DATE;
 
