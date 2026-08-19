@@ -590,6 +590,77 @@ body.nav-open .nav-toggle span:nth-child(3) {
   font-size: 16px;
 }
 
+.halal-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px 8px 9px;
+  border: 2px solid #237a45;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #176336;
+  box-shadow: 0 10px 24px rgba(23, 99, 54, 0.12);
+}
+
+.halal-stamp__arabic {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #237a45;
+  color: var(--white);
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.halal-stamp strong {
+  font-family: var(--heading-font);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.halal-stamp--hero {
+  position: absolute;
+  top: 92px;
+  left: 2px;
+  z-index: 3;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  width: 104px;
+  height: 104px;
+  padding: 8px;
+  border: 4px solid var(--white);
+  border-radius: 50%;
+  outline: 2px solid #237a45;
+  background: #237a45;
+  color: var(--white);
+  box-shadow: 0 16px 34px rgba(8, 5, 33, 0.24);
+  transform: rotate(-8deg);
+}
+
+.halal-stamp--hero .halal-stamp__arabic {
+  width: auto;
+  height: auto;
+  background: transparent;
+  font-size: 27px;
+}
+
+.halal-stamp--hero strong {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+}
+
+.halal-stamp--menu {
+  margin-top: 16px;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1882,6 +1953,21 @@ body.nav-open .nav-toggle span:nth-child(3) {
   .hero-text {
     margin-bottom: 26px;
     font-size: 15px;
+  }
+
+  .halal-stamp--hero {
+    top: 96px;
+    left: 12px;
+    width: 88px;
+    height: 88px;
+  }
+
+  .halal-stamp--hero .halal-stamp__arabic {
+    font-size: 23px;
+  }
+
+  .halal-stamp--hero strong {
+    font-size: 10px;
   }
 
   .hero-actions {
