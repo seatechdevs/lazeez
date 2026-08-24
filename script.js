@@ -99,6 +99,11 @@ function buildMenuCatalog() {
   const mount = document.getElementById("menuCatalog");
   const tabs = document.getElementById("categoryNav");
   const template = document.createElement("template");
+  const itemsServedWithYogurt = new Set([
+    "Lacha Parantha",
+    "Aloo Parantha",
+    "Paneer Naan"
+  ]);
 
   template.innerHTML = window.MENU_HTML.trim();
   const menuRoot = template.content.firstElementChild;
@@ -137,6 +142,14 @@ function buildMenuCatalog() {
     section.classList.add("catalog-section");
     titleElement.className = "catalog-section__title";
     titleElement.textContent = title;
+
+    if (title.includes("ENTREES")) {
+      const riceNote = document.createElement("span");
+      riceNote.className = "catalog-section__rice-note";
+      riceNote.innerHTML = '<i class="fa-solid fa-bowl-rice" aria-hidden="true"></i> Complimentary rice with every entrée';
+      titleElement.appendChild(riceNote);
+    }
+
     grid.className = "catalog-grid";
 
     categories.push({
@@ -162,6 +175,10 @@ function buildMenuCatalog() {
       const details = cardBody?.querySelector(":scope > div:nth-of-type(2)");
       const description = details?.querySelector("div");
       const price = cardBody?.querySelector(":scope > div:nth-of-type(3)");
+
+      if (name && description && itemsServedWithYogurt.has(name.textContent.trim())) {
+        description.textContent = `${description.textContent.trim()} Served with yogurt.`;
+      }
 
       if (cardBody) {
         cardBody.className = "catalog-card__body";
