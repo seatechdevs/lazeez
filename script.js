@@ -1,5 +1,13 @@
 const ORDER_URL = "https://order.posorderx.com/store/23941ecf-d67e-4680-a4b7-c2d4b70a18a1";
-const PHONE_NUMBER = "2069637663";
+const PHONE_NUMBER = "2539049187";
+const MENU_ITEMS_TO_REMOVE = new Set([
+  "dahi bhalla",
+  "dahi bahlla",
+  "dahi papdi",
+  "dahi poori",
+  "dahi puri",
+  "chicken steam roast"
+]);
 
 function slugify(text) {
   return text
@@ -135,6 +143,33 @@ function buildMenuCatalog() {
     const rawTitle = titleElement.textContent.trim();
     const title = rawTitle === "CHICEKN ENTREES" ? "CHICKEN ENTREES" : rawTitle;
     const id = slugify(title);
+    [...grid.children].forEach((card) => {
+      const itemName = card.querySelector(":scope > div > div")?.textContent.trim().toLowerCase();
+
+      if (itemName && MENU_ITEMS_TO_REMOVE.has(itemName)) {
+        card.remove();
+      }
+    });
+
+    if (title === "CHICKEN ENTREES") {
+      const referenceCard = [...grid.children].find((card) =>
+        card.querySelector(":scope > div > div")?.textContent.trim() === "Chicken Curry"
+      );
+
+      if (referenceCard) {
+        const kormaCard = referenceCard.cloneNode(true);
+        const body = kormaCard.querySelector(":scope > div");
+        const name = body?.querySelector(":scope > div");
+        const description = body?.querySelector(":scope > div:nth-of-type(2) > div");
+        const price = body?.querySelector(":scope > div:nth-of-type(3)");
+
+        if (name) name.textContent = "Chicken Korma";
+        if (description) description.textContent = "A rich, velvety blend of aromatic spices and cream.";
+        if (price) price.textContent = "$ 18.99";
+        grid.appendChild(kormaCard);
+      }
+    }
+
     const cards = [...grid.children];
     const firstImage = cards[0]?.querySelector("img")?.src || "";
 
