@@ -123,6 +123,172 @@ function buildMenuCatalog() {
   menuRoot.removeAttribute("style");
   menuRoot.className = "menu-catalog-raw";
 
+  const dessertsSection = [...menuRoot.querySelectorAll(".category-item")].find(
+    (section) => section.querySelector(":scope > div")?.textContent.trim() === "DESSERTS"
+  );
+
+  if (dessertsSection) {
+    const thaliSection = document.createElement("section");
+    thaliSection.className = "category-item";
+    thaliSection.innerHTML = `
+      <div>LAZEEZ THALI</div>
+      <div>
+        <div>
+          <div>
+            <div>Veg Thali</div>
+            <div><div>2 veg curries, raita, rice and salad.</div></div>
+            <div>$ 19.99</div>
+          </div>
+          <img src="https://res.us.disoo.com/store/53d172c3-c44b-49f2-bf12-e4cbc27fa08d.png" alt="Veg Thali">
+        </div>
+        <div>
+          <div>
+            <div>Non Veg Thali</div>
+            <div><div>2 chicken curries, raita, rice and salad.</div></div>
+            <div>$ 21.99</div>
+          </div>
+          <img src="https://res.us.disoo.com/store/544d8410-9852-467b-90d6-c76d2c9d8066.png" alt="Non Veg Thali">
+        </div>
+      </div>
+    `;
+    dessertsSection.before(thaliSection);
+  }
+
+  const addMenuItem = (categoryTitle, item) => {
+    const category = [...menuRoot.querySelectorAll(".category-item")].find(
+      (section) => section.querySelector(":scope > div")?.textContent.trim() === categoryTitle
+    );
+    const grid = category?.querySelector(":scope > div:nth-of-type(2)");
+
+    if (!grid) return;
+
+    const card = document.createElement("div");
+    card.innerHTML = `
+      <div>
+        <div>${item.name}</div>
+        <div><div>${item.description}</div></div>
+        <div>${item.price ? `$ ${item.price}` : ""}</div>
+      </div>
+      <img src="${item.image}" alt="${item.name}">
+    `;
+    grid.appendChild(card);
+  };
+
+  const drinksSection = [...menuRoot.querySelectorAll(".category-item")].find(
+    (section) => section.querySelector(":scope > div")?.textContent.trim() === "DRINKS"
+  );
+  const pizzaSection = document.createElement("section");
+  pizzaSection.className = "category-item";
+  pizzaSection.innerHTML = "<div>PIZZA</div><div></div>";
+  drinksSection?.before(pizzaSection);
+
+  const pizzaPhotos = {
+    pepperoni: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Closeup_of_a_pepperoni_pizza.jpg?width=800",
+    meatLover: "https://slice-menu-assets-prod.imgix.net/39790/1609352294_b443b1e422",
+    bbq: "https://images.squarespace-cdn.com/content/v1/604a53652a239b09920815e1/1622729629993-2YZMPZG3514J5TRY5IOB/pc_1930.jpg",
+    supreme: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Supreme_pizza.jpg?width=800",
+    hawaiian: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Hawaiian_pizza_image.jpg?width=800",
+    chickenBaconRanch: "https://static.spotapps.co/spots/90/9d63617a6a4da0b7923cd6fe566d59/full",
+    chickenAlfredo: "https://static.spotapps.co/spots/e3/523f3fce0344149bec8705aebf505c/full",
+    cheese: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Cheese_pizza.png?width=800",
+    veggie: "https://photos.tryotter.com/menu-photos/263198fa-1dd1-44b4-a23f-3fc8064fefcf.png",
+    butterPaneer: "https://139438472.cdn6.editmysite.com/uploads/1/3/9/4/139438472/7CAN7WSD3KD6ZA6QFOIZJXHW.jpeg?optimize=medium&width=1200",
+    tandooriChicken: "https://d2s742iet3d3t1.cloudfront.net/restaurants/restaurant-248610000000000000/menu/items/8/item-400000049180191858_1737145726.jpg?size=medium",
+    butterChicken: "https://slicelife.imgix.net/53006/photos/original/TandooriPizza_Grill_ButterChickenPizza.jpg?auto=compress%2Cformat&fit=crop&h=800&w=1200",
+    achariChicken: "https://d2s742iet3d3t1.cloudfront.net/restaurants/restaurant-248610000000000000/menu/items/8/item-400000049180191898_1737145881.jpg?size=medium",
+    garlicBreadsticks: "https://photos.tryotter.com/cdn-cgi/image/fit=crop,width=1200,quality=80/menu-photos/de90cd13-8fd1-47af-a2d4-474a7fad3614.jpeg",
+    cheeseBreadsticks: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Cheese_Bread_Sticks.jpg?width=800",
+    fries: "https://commons.wikimedia.org/wiki/Special:Redirect/file/French_Fries_on_plate.JPG?width=800",
+    greekFries: "https://flipdish-web.imgix.net/br13032/04276ad02a3f24edd72702497e9ae718.png",
+    custom: "https://slice-menu-assets-prod.imgix.net/111820/1768118026_6afea0a1b3?fit=crop&h=800&w=1200",
+    toppings: "https://slice-menu-assets-prod.imgix.net/48430/1620123207_d9fed767b5?fit=crop&h=800&w=1200",
+    sauces: "https://d2s742iet3d3t1.cloudfront.net/restaurants/restaurant-201297000000000000/menu/items/1/item-1100000000417890701_1717613814.jpg?size=medium"
+  };
+  const classicPizzaPrice = "15.99 M · $19.99 L · $22.99 XL";
+  const indianPizzaPrice = "19.99 M · $21.99 L · $23.99 XL";
+
+  [
+    ["Pepperoni", "Classic pepperoni with mozzarella cheese and pizza sauce.", pizzaPhotos.pepperoni],
+    ["Meat Lover", "Pepperoni, Italian sausage, ground beef, ham, diced bacon and mozzarella.", pizzaPhotos.meatLover],
+    ["BBQ Chicken Pizza", "Grilled chicken, red onions, mozzarella and barbecue sauce.", pizzaPhotos.bbq],
+    ["Supreme", "Pepperoni, Italian sausage, green peppers, onions, olives, mushrooms and mozzarella.", pizzaPhotos.supreme],
+    ["Hawaiian", "Ham, pineapple and mozzarella cheese.", pizzaPhotos.hawaiian],
+    ["Chicken Bacon N Ranch", "Grilled chicken, diced bacon, mozzarella and ranch drizzle.", pizzaPhotos.chickenBaconRanch],
+    ["Chicken Alfredo", "Grilled chicken, Alfredo sauce, mozzarella and Italian herbs.", pizzaPhotos.chickenAlfredo],
+    ["Cheese Pizza", "Classic cheese pizza with mozzarella and pizza sauce.", pizzaPhotos.cheese]
+  ].forEach(([name, description, image]) =>
+    addMenuItem("PIZZA", { name, description, price: classicPizzaPrice, image })
+  );
+
+  [
+    ["Veggie Lovers Pizza", "Onions, green peppers, mushrooms, tomatoes, black olives, sweet corn and mozzarella.", pizzaPhotos.veggie],
+    ["Butter Paneer Pizza", "Paneer tikka, onions, green peppers, butter masala sauce and mozzarella.", pizzaPhotos.butterPaneer],
+    ["Tandoori Chicken Pizza", "Tandoori chicken, onions, green peppers, mozzarella and tandoori mayo drizzle.", pizzaPhotos.tandooriChicken],
+    ["Butter Chicken Pizza", "Butter chicken, onions, mozzarella and cilantro.", pizzaPhotos.butterChicken],
+    ["Achari Chicken Pizza", "Achari chicken, onions, green chilies, red onions, mozzarella and achari sauce.", pizzaPhotos.achariChicken]
+  ].forEach(([name, description, image]) =>
+    addMenuItem("PIZZA", { name, description, price: indianPizzaPrice, image })
+  );
+
+  addMenuItem("PIZZA", {
+    name: "Create Your Own Pizza",
+    description: "Pick your size, choose your sauce and add any toppings.",
+    price: "22.99 M · $24.99 L · $26.99 XL",
+    image: pizzaPhotos.custom
+  });
+  [
+    ["Garlic Bread Sticks", "6.99", pizzaPhotos.garlicBreadsticks],
+    ["Cheese Bread Sticks", "8.99", pizzaPhotos.cheeseBreadsticks],
+    ["Chicken Wings", "11.99", "https://res.us.disoo.com/store/c667af9c-6a79-43f4-a2fa-203ef1210bcc.png"],
+    ["French Fries", "6.99", pizzaPhotos.fries],
+    ["Greek Fries", "7.99", pizzaPhotos.greekFries]
+  ].forEach(([name, price, image]) =>
+    addMenuItem("PIZZA", { name, description: "Pizza menu appetizer.", price, image })
+  );
+  addMenuItem("PIZZA", {
+    name: "Pizza Add-ons",
+    description: "Meats, onions, peppers, jalapeños, olives, mushrooms, pineapple, roasted garlic and feta cheese.",
+    price: "1.75 each",
+    image: pizzaPhotos.toppings
+  });
+  addMenuItem("PIZZA", {
+    name: "Dipping Sauces",
+    description: "Homemade red sauce, ranch, garlic butter, barbecue, Alfredo and buffalo.",
+    price: "",
+    image: pizzaPhotos.sauces
+  });
+
+  addMenuItem("TANDOORI SPECIAL", {
+    name: "Haryali Chicken",
+    description: "Chicken marinated in mint, cilantro, green chili and spices, then grilled.",
+    price: "18.99",
+    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chicken_Hariyali_kebab.jpg?width=800"
+  });
+  addMenuItem("GOAT & LAMB ENTREES", {
+    name: "Rogan Josh Lamb",
+    description: "Lamb cooked in a rich, aromatic Kashmiri-style gravy.",
+    price: "19.99",
+    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Mutton_rogan_josh.jpg?width=800"
+  });
+  addMenuItem("BREAD", {
+    name: "Paneer Parantha",
+    description: "Whole-wheat flatbread stuffed with spiced paneer. Served with yogurt.",
+    price: "7.99",
+    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Paneer_Parantha.jpg?width=800"
+  });
+  addMenuItem("VEGETARIAN ENTREES", {
+    name: "Paneer Tikka Masala",
+    description: "Paneer tikka cooked in a rich and creamy tomato sauce.",
+    price: "17.99",
+    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Paneer_Tikka_Masala_(2026)_01.jpg?width=800"
+  });
+  addMenuItem("VEGETARIAN ENTREES", {
+    name: "Tofu Butter Curry",
+    description: "Tofu cooked in a rich, buttery tomato sauce.",
+    price: "17.99",
+    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Tofu_Tikka_Masala_with_Brown_Rice_and_Chilies_(4940054389).jpg?width=800"
+  });
+
   mount.innerHTML = "";
   mount.appendChild(menuRoot);
   tabs.innerHTML = "";
@@ -210,6 +376,27 @@ function buildMenuCatalog() {
       const details = cardBody?.querySelector(":scope > div:nth-of-type(2)");
       const description = details?.querySelector("div");
       const price = cardBody?.querySelector(":scope > div:nth-of-type(3)");
+
+      const menuPriceUpdates = {
+        "Chicken Wings": "$ 11.99",
+        "Daal Soup": "$ 7.99",
+        "Tandoori Shrimp": "$ 21.99",
+        "Tandoori Mix Grill": "$ 21.99",
+        "Chicken Curry": "$ 18.99",
+        "Chicken Tikka Masala": "$ 19.99",
+        "Methi Chicken": "$ 19.99",
+        "Chicken Korma": "$ 19.99",
+        "Baingan Bharta": "$ 15.99",
+        "Saag Chana": "$ 15.99",
+        "Bottled Water": "$ 2.00",
+        Kheer: "$ 4.99",
+        "Gulab Jamun": "$ 4.99",
+        "Ras Malai": "$ 5.99"
+      };
+
+      if (name && price && menuPriceUpdates[name.textContent.trim()]) {
+        price.textContent = menuPriceUpdates[name.textContent.trim()];
+      }
 
       if (name && description && itemsServedWithYogurt.has(name.textContent.trim())) {
         description.textContent = `${description.textContent.trim()} Served with yogurt.`;
