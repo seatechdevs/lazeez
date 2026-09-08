@@ -204,8 +204,8 @@ function buildMenuCatalog() {
     toppings: "https://slice-menu-assets-prod.imgix.net/48430/1620123207_d9fed767b5?fit=crop&h=800&w=1200",
     sauces: "https://d2s742iet3d3t1.cloudfront.net/restaurants/restaurant-201297000000000000/menu/items/1/item-1100000000417890701_1717613814.jpg?size=medium"
   };
-  const classicPizzaPrice = "15.99 M · $19.99 L · $22.99 XL";
-  const indianPizzaPrice = "19.99 M · $21.99 L · $23.99 XL";
+  const classicPizzaPrice = "13.99 Small (10\") · $15.99 Medium (12\") · $19.99 Large (14\")";
+  const indianPizzaPrice = "15.99 Small (10\") · $19.99 Medium (12\") · $21.99 Large (14\")";
 
   [
     ["Pepperoni", "Classic pepperoni with mozzarella cheese and pizza sauce.", pizzaPhotos.pepperoni],
@@ -225,7 +225,8 @@ function buildMenuCatalog() {
     ["Butter Paneer Pizza", "Paneer tikka, onions, green peppers, butter masala sauce and mozzarella.", pizzaPhotos.butterPaneer],
     ["Tandoori Chicken Pizza", "Tandoori chicken, onions, green peppers, mozzarella and tandoori mayo drizzle.", pizzaPhotos.tandooriChicken],
     ["Butter Chicken Pizza", "Butter chicken, onions, mozzarella and cilantro.", pizzaPhotos.butterChicken],
-    ["Achari Chicken Pizza", "Achari chicken, onions, green chilies, red onions, mozzarella and achari sauce.", pizzaPhotos.achariChicken]
+    ["Achari Chicken Pizza", "Achari chicken, onions, green chilies, red onions, mozzarella and achari sauce.", pizzaPhotos.achariChicken],
+    ["Chicken Korma Pizza", "Chicken korma, red onions, bell peppers, mozzarella cheese and korma sauce drizzle.", pizzaPhotos.butterChicken]
   ].forEach(([name, description, image]) =>
     addMenuItem("PIZZA", { name, description, price: indianPizzaPrice, image })
   );
@@ -233,7 +234,7 @@ function buildMenuCatalog() {
   addMenuItem("PIZZA", {
     name: "Create Your Own Pizza",
     description: "Pick your size, choose your sauce and add any toppings.",
-    price: "22.99 M · $24.99 L · $26.99 XL",
+    price: "19.99 Small (10\") · $22.99 Medium (12\") · $24.99 Large (14\")",
     image: pizzaPhotos.custom
   });
   [
@@ -247,15 +248,27 @@ function buildMenuCatalog() {
   );
   addMenuItem("PIZZA", {
     name: "Pizza Add-ons",
-    description: "Meats, onions, peppers, jalapeños, olives, mushrooms, pineapple, roasted garlic and feta cheese.",
+    description: "Meats: pepperoni, Italian sausage, ground beef, ham, diced bacon, salami or chicken. Veggies & more: onion, Roma tomato, green pepper, jalapeños, black olives, mushroom, pineapple, roasted garlic or feta cheese.",
     price: "1.75 each",
     image: pizzaPhotos.toppings
   });
   addMenuItem("PIZZA", {
     name: "Dipping Sauces",
-    description: "Homemade red sauce, ranch, garlic butter, barbecue, Alfredo and buffalo.",
-    price: "",
+    description: "Homemade red sauce, ranch, garlic butter, barbecue, Alfredo or buffalo.",
+    price: "1.50 each",
     image: pizzaPhotos.sauces
+  });
+  addMenuItem("PIZZA", {
+    name: "2 Medium Classic Pizzas",
+    description: "Special combo with two medium classic pizzas.",
+    price: "30.00",
+    image: pizzaPhotos.pepperoni
+  });
+  addMenuItem("PIZZA", {
+    name: "2 Medium Indian Flavor Pizzas",
+    description: "Special combo with two medium Indian flavor pizzas.",
+    price: "38.00",
+    image: pizzaPhotos.butterPaneer
   });
 
   addMenuItem("TANDOORI SPECIAL", {
@@ -388,7 +401,8 @@ function buildMenuCatalog() {
         "Chicken Korma": "$ 19.99",
         "Baingan Bharta": "$ 15.99",
         "Saag Chana": "$ 15.99",
-        "Bottled Water": "$ 2.00",
+        "Bottled Water": "$ 1.50",
+        "Sparkling Water": "$ 2.50",
         Kheer: "$ 4.99",
         "Gulab Jamun": "$ 4.99",
         "Ras Malai": "$ 5.99"
