@@ -2412,6 +2412,219 @@ body.nav-open .nav-toggle span:nth-child(3) {
   }
 }
 
+/* ── Exclusive pizza deals ───────────────────────────────── */
+.exclusive-deals.section {
+  padding: 72px 0 84px;
+  scroll-margin-top: calc(var(--header-height) + 16px);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(242, 162, 42, 0.2), transparent 28%),
+    radial-gradient(circle at 96% 12%, rgba(171, 22, 44, 0.1), transparent 24%),
+    linear-gradient(180deg, #fff8ef 0%, #fff4e4 48%, #fff 100%);
+}
+
+.exclusive-deals__heading {
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.exclusive-deals a:focus-visible {
+  outline: 2px solid var(--main);
+  outline-offset: 3px;
+}
+
+.exclusive-deals__brand {
+  margin-bottom: 10px;
+  color: var(--ink);
+  font-family: var(--heading-font);
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.exclusive-deals__family {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--main);
+  color: #fff;
+  font-family: var(--heading-font);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.exclusive-deals .section-heading h2 {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 14px 28px 12px;
+  border-radius: 16px;
+  background: linear-gradient(100deg, #64101e 0%, #ab162c 52%, #7c1226 100%);
+  color: #f8e7b0;
+  box-shadow: 0 12px 28px rgba(93, 12, 25, 0.2);
+}
+
+.exclusive-deals__lead {
+  max-width: 640px;
+  margin: 0 auto;
+  color: var(--ink-soft);
+  font-size: 16px;
+}
+
+.exclusive-deals__layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.exclusive-deals__flyer {
+  margin: 0;
+  padding: 12px 12px 14px;
+  border: 1px solid rgba(171, 22, 44, 0.16);
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: var(--shadow-card);
+}
+
+.exclusive-deals__flyer img {
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+}
+
+.exclusive-deals__flyer figcaption {
+  margin-top: 10px;
+  color: var(--ink-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.exclusive-deals__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.deal-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.deal-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(171, 22, 44, 0.14);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 14px 36px rgba(80, 12, 24, 0.08);
+}
+
+.deal-card h3 {
+  padding: 13px 16px 11px;
+  background: linear-gradient(90deg, #7a1224 0%, #ab162c 100%);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.deal-card__detail {
+  padding: 0 16px;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.deal-card__perk {
+  align-self: flex-start;
+  margin: auto 16px 16px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #5d0c19;
+  font-family: var(--heading-font);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.exclusive-deals__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.exclusive-deals__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.exclusive-deals__meta li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.exclusive-deals__meta i {
+  color: var(--main);
+}
+
+.exclusive-deals__meta a:hover,
+.exclusive-deals__meta a:focus-visible {
+  color: var(--main);
+}
+
+@media (max-width: 991.98px) {
+  .exclusive-deals__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .exclusive-deals__flyer {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .exclusive-deals.section {
+    padding: 56px 0 64px;
+  }
+
+  .exclusive-deals .section-heading h2 {
+    padding: 12px 16px 10px;
+    font-size: 1.7rem;
+  }
+
+  .deal-list {
+    grid-template-columns: 1fr;
+  }
+
+  .exclusive-deals__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 .footer-managed-by {
   margin-top: 48px;
   padding-top: 32px;
