@@ -125,6 +125,29 @@ function formatChoice(choice) {
   return `${choice.name} +${formatCents(choice.priceCents)}`;
 }
 
+const PIZZA_CATEGORIES = new Set([
+  "CLASSIC PIZZAS",
+  "INDIAN FLAVOR PIZZAS",
+  "CREATE YOUR OWN PIZZA",
+  "PIZZA COMBOS"
+]);
+
+function isPizzaToppingGroup(name) {
+  const label = name.toLowerCase();
+
+  return label.includes("topping") || label === "meats";
+}
+
+function visibleOptions(categoryName, item) {
+  const options = item.options || [];
+
+  if (!PIZZA_CATEGORIES.has(categoryName)) {
+    return options;
+  }
+
+  return options.filter((group) => !isPizzaToppingGroup(group.name));
+}
+
 function buildMenuCatalog() {
   const mount = document.getElementById("menuCatalog");
   const tabs = document.getElementById("categoryNav");
@@ -177,11 +200,13 @@ function buildMenuCatalog() {
         details.appendChild(description);
       }
 
-      if (item.options?.length) {
+      const itemOptions = visibleOptions(category.name, item);
+
+      if (itemOptions.length) {
         const options = document.createElement("ul");
         options.className = "catalog-card__options";
 
-        item.options.forEach((group) => {
+        itemOptions.forEach((group) => {
           const option = document.createElement("li");
           const label = document.createElement("strong");
           label.textContent = `${group.name}: `;
