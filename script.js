@@ -1,13 +1,5 @@
 const ORDER_URL = "https://order.posorderx.com/store/23941ecf-d67e-4680-a4b7-c2d4b70a18a1";
 const PHONE_NUMBER = "2539049187";
-const MENU_ITEMS_TO_REMOVE = new Set([
-  "dahi bhalla",
-  "dahi bahlla",
-  "dahi papdi",
-  "dahi poori",
-  "dahi puri",
-  "chicken steam roast"
-]);
 
 function slugify(text) {
   return text
@@ -20,6 +12,8 @@ function slugify(text) {
 function setOrderLinks() {
   document.querySelectorAll("[data-order-link]").forEach((link) => {
     link.href = ORDER_URL;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
   });
 
   document.querySelectorAll("[data-phone-link]").forEach((link) => {
@@ -63,7 +57,7 @@ function buildFeaturedCards(items) {
             </div>
             <h3 class="featured-card__title">${item.name}</h3>
             <p class="featured-card__desc">${item.description}</p>
-            <a class="btn-link" href="${ORDER_URL}">order now <i class="fa-solid fa-arrow-right"></i></a>
+            <a class="btn-link" data-order-link href="${ORDER_URL}">order now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
           </div>
         </article>
       `
@@ -103,364 +97,188 @@ function setActiveTab(categoryId) {
   });
 }
 
+function formatCents(cents) {
+  return `$${(cents / 100).toFixed(2)}`;
+}
+
+function formatItemPrice(item) {
+  const sizes = item.sizes || [];
+
+  if (!sizes.length) {
+    return item.priceCents == null ? "" : formatCents(item.priceCents);
+  }
+
+  if (sizes.length === 1 && sizes[0].name === "Default") {
+    return formatCents(sizes[0].priceCents);
+  }
+
+  return sizes
+    .map((size) => `${size.name} ${formatCents(size.priceCents)}`)
+    .join(" · ");
+}
+
+function formatChoice(choice) {
+  if (!choice.priceCents) {
+    return choice.name;
+  }
+
+  return `${choice.name} +${formatCents(choice.priceCents)}`;
+}
+
+const PIZZA_CATEGORIES = new Set([
+  "CLASSIC PIZZAS",
+  "INDIAN FLAVOR PIZZAS",
+  "CREATE YOUR OWN PIZZA",
+  "PIZZA COMBOS"
+]);
+
+function isPizzaToppingGroup(name) {
+  const label = name.toLowerCase();
+
+  return label.includes("topping") || label === "meats";
+}
+
+function visibleOptions(categoryName, item) {
+  const options = item.options || [];
+
+  if (!PIZZA_CATEGORIES.has(categoryName)) {
+    return options;
+  }
+
+  return options.filter((group) => !isPizzaToppingGroup(group.name));
+}
+
 function buildMenuCatalog() {
   const mount = document.getElementById("menuCatalog");
   const tabs = document.getElementById("categoryNav");
-  const template = document.createElement("template");
-  const itemsServedWithYogurt = new Set([
-    "Lacha Parantha",
-    "Aloo Parantha",
-    "Paneer Naan"
-  ]);
+  const menu = window.LAZEEZ_MENU || [];
 
-  template.innerHTML = window.MENU_HTML.trim();
-  const menuRoot = template.content.firstElementChild;
-
-  if (!menuRoot) {
+  if (!mount || !tabs) {
     return;
   }
 
-  menuRoot.removeAttribute("style");
-  menuRoot.className = "menu-catalog-raw";
-
-  const dessertsSection = [...menuRoot.querySelectorAll(".category-item")].find(
-    (section) => section.querySelector(":scope > div")?.textContent.trim() === "DESSERTS"
-  );
-
-  if (dessertsSection) {
-    const thaliSection = document.createElement("section");
-    thaliSection.className = "category-item";
-    thaliSection.innerHTML = `
-      <div>LAZEEZ THALI</div>
-      <div>
-        <div>
-          <div>
-            <div>Veg Thali</div>
-            <div><div>2 veg curries, raita, rice and salad.</div></div>
-            <div>$ 19.99</div>
-          </div>
-          <img src="https://res.us.disoo.com/store/53d172c3-c44b-49f2-bf12-e4cbc27fa08d.png" alt="Veg Thali">
-        </div>
-        <div>
-          <div>
-            <div>Non Veg Thali</div>
-            <div><div>2 chicken curries, raita, rice and salad.</div></div>
-            <div>$ 21.99</div>
-          </div>
-          <img src="https://res.us.disoo.com/store/544d8410-9852-467b-90d6-c76d2c9d8066.png" alt="Non Veg Thali">
-        </div>
-      </div>
-    `;
-    dessertsSection.before(thaliSection);
-  }
-
-  const addMenuItem = (categoryTitle, item) => {
-    const category = [...menuRoot.querySelectorAll(".category-item")].find(
-      (section) => section.querySelector(":scope > div")?.textContent.trim() === categoryTitle
-    );
-    const grid = category?.querySelector(":scope > div:nth-of-type(2)");
-
-    if (!grid) return;
-
-    const card = document.createElement("div");
-    card.innerHTML = `
-      <div>
-        <div>${item.name}</div>
-        <div><div>${item.description}</div></div>
-        <div>${item.price ? `$ ${item.price}` : ""}</div>
-      </div>
-      <img src="${item.image}" alt="${item.name}">
-    `;
-    grid.appendChild(card);
-  };
-
-  const drinksSection = [...menuRoot.querySelectorAll(".category-item")].find(
-    (section) => section.querySelector(":scope > div")?.textContent.trim() === "DRINKS"
-  );
-  const pizzaSection = document.createElement("section");
-  pizzaSection.className = "category-item";
-  pizzaSection.innerHTML = "<div>PIZZA</div><div></div>";
-  drinksSection?.before(pizzaSection);
-
-  const pizzaPhotos = {
-    pepperoni: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Closeup_of_a_pepperoni_pizza.jpg?width=800",
-    meatLover: "https://slice-menu-assets-prod.imgix.net/39790/1609352294_b443b1e422",
-    bbq: "https://images.squarespace-cdn.com/content/v1/604a53652a239b09920815e1/1622729629993-2YZMPZG3514J5TRY5IOB/pc_1930.jpg",
-    supreme: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Supreme_pizza.jpg?width=800",
-    hawaiian: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Hawaiian_pizza_image.jpg?width=800",
-    chickenBaconRanch: "https://static.spotapps.co/spots/90/9d63617a6a4da0b7923cd6fe566d59/full",
-    chickenAlfredo: "https://static.spotapps.co/spots/e3/523f3fce0344149bec8705aebf505c/full",
-    cheese: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Cheese_pizza.png?width=800",
-    veggie: "https://photos.tryotter.com/menu-photos/263198fa-1dd1-44b4-a23f-3fc8064fefcf.png",
-    butterPaneer: "https://139438472.cdn6.editmysite.com/uploads/1/3/9/4/139438472/7CAN7WSD3KD6ZA6QFOIZJXHW.jpeg?optimize=medium&width=1200",
-    tandooriChicken: "https://d2s742iet3d3t1.cloudfront.net/restaurants/restaurant-248610000000000000/menu/items/8/item-400000049180191858_1737145726.jpg?size=medium",
-    butterChicken: "https://slicelife.imgix.net/53006/photos/original/TandooriPizza_Grill_ButterChickenPizza.jpg?auto=compress%2Cformat&fit=crop&h=800&w=1200",
-    achariChicken: "https://d2s742iet3d3t1.cloudfront.net/restaurants/restaurant-248610000000000000/menu/items/8/item-400000049180191898_1737145881.jpg?size=medium",
-    garlicBreadsticks: "https://photos.tryotter.com/cdn-cgi/image/fit=crop,width=1200,quality=80/menu-photos/de90cd13-8fd1-47af-a2d4-474a7fad3614.jpeg",
-    cheeseBreadsticks: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Cheese_Bread_Sticks.jpg?width=800",
-    fries: "https://commons.wikimedia.org/wiki/Special:Redirect/file/French_Fries_on_plate.JPG?width=800",
-    greekFries: "https://flipdish-web.imgix.net/br13032/04276ad02a3f24edd72702497e9ae718.png",
-    custom: "https://slice-menu-assets-prod.imgix.net/111820/1768118026_6afea0a1b3?fit=crop&h=800&w=1200",
-    toppings: "https://slice-menu-assets-prod.imgix.net/48430/1620123207_d9fed767b5?fit=crop&h=800&w=1200",
-    sauces: "https://d2s742iet3d3t1.cloudfront.net/restaurants/restaurant-201297000000000000/menu/items/1/item-1100000000417890701_1717613814.jpg?size=medium"
-  };
-  const classicPizzaPrice = "13.99 Small (10\") · $15.99 Medium (12\") · $19.99 Large (14\")";
-  const indianPizzaPrice = "15.99 Small (10\") · $19.99 Medium (12\") · $21.99 Large (14\")";
-
-  [
-    ["Pepperoni", "Classic pepperoni with mozzarella cheese and pizza sauce.", pizzaPhotos.pepperoni],
-    ["Meat Lover", "Pepperoni, Italian sausage, ground beef, ham, diced bacon and mozzarella.", pizzaPhotos.meatLover],
-    ["BBQ Chicken Pizza", "Grilled chicken, red onions, mozzarella and barbecue sauce.", pizzaPhotos.bbq],
-    ["Supreme", "Pepperoni, Italian sausage, green peppers, onions, olives, mushrooms and mozzarella.", pizzaPhotos.supreme],
-    ["Hawaiian", "Ham, pineapple and mozzarella cheese.", pizzaPhotos.hawaiian],
-    ["Chicken Bacon N Ranch", "Grilled chicken, diced bacon, mozzarella and ranch drizzle.", pizzaPhotos.chickenBaconRanch],
-    ["Chicken Alfredo", "Grilled chicken, Alfredo sauce, mozzarella and Italian herbs.", pizzaPhotos.chickenAlfredo],
-    ["Cheese Pizza", "Classic cheese pizza with mozzarella and pizza sauce.", pizzaPhotos.cheese]
-  ].forEach(([name, description, image]) =>
-    addMenuItem("PIZZA", { name, description, price: classicPizzaPrice, image })
-  );
-
-  [
-    ["Veggie Lovers Pizza", "Onions, green peppers, mushrooms, tomatoes, black olives, sweet corn and mozzarella.", pizzaPhotos.veggie],
-    ["Butter Paneer Pizza", "Paneer tikka, onions, green peppers, butter masala sauce and mozzarella.", pizzaPhotos.butterPaneer],
-    ["Tandoori Chicken Pizza", "Tandoori chicken, onions, green peppers, mozzarella and tandoori mayo drizzle.", pizzaPhotos.tandooriChicken],
-    ["Butter Chicken Pizza", "Butter chicken, onions, mozzarella and cilantro.", pizzaPhotos.butterChicken],
-    ["Achari Chicken Pizza", "Achari chicken, onions, green chilies, red onions, mozzarella and achari sauce.", pizzaPhotos.achariChicken],
-    ["Chicken Korma Pizza", "Chicken korma, red onions, bell peppers, mozzarella cheese and korma sauce drizzle.", pizzaPhotos.butterChicken]
-  ].forEach(([name, description, image]) =>
-    addMenuItem("PIZZA", { name, description, price: indianPizzaPrice, image })
-  );
-
-  addMenuItem("PIZZA", {
-    name: "Create Your Own Pizza",
-    description: "Pick your size, choose your sauce and add any toppings.",
-    price: "19.99 Small (10\") · $22.99 Medium (12\") · $24.99 Large (14\")",
-    image: pizzaPhotos.custom
-  });
-  [
-    ["Garlic Bread Sticks", "6.99", pizzaPhotos.garlicBreadsticks],
-    ["Cheese Bread Sticks", "8.99", pizzaPhotos.cheeseBreadsticks],
-    ["Chicken Wings", "11.99", "https://res.us.disoo.com/store/c667af9c-6a79-43f4-a2fa-203ef1210bcc.png"],
-    ["French Fries", "6.99", pizzaPhotos.fries],
-    ["Greek Fries", "7.99", pizzaPhotos.greekFries]
-  ].forEach(([name, price, image]) =>
-    addMenuItem("PIZZA", { name, description: "Pizza menu appetizer.", price, image })
-  );
-  addMenuItem("PIZZA", {
-    name: "Pizza Add-ons",
-    description: "Meats: pepperoni, Italian sausage, ground beef, ham, diced bacon, salami or chicken. Veggies & more: onion, Roma tomato, green pepper, jalapeños, black olives, mushroom, pineapple, roasted garlic or feta cheese.",
-    price: "1.75 each",
-    image: pizzaPhotos.toppings
-  });
-  addMenuItem("PIZZA", {
-    name: "Dipping Sauces",
-    description: "Homemade red sauce, ranch, garlic butter, barbecue, Alfredo or buffalo.",
-    price: "1.50 each",
-    image: pizzaPhotos.sauces
-  });
-  addMenuItem("PIZZA", {
-    name: "2 Medium Classic Pizzas",
-    description: "Special combo with two medium classic pizzas.",
-    price: "30.00",
-    image: pizzaPhotos.pepperoni
-  });
-  addMenuItem("PIZZA", {
-    name: "2 Medium Indian Flavor Pizzas",
-    description: "Special combo with two medium Indian flavor pizzas.",
-    price: "38.00",
-    image: pizzaPhotos.butterPaneer
-  });
-
-  addMenuItem("TANDOORI SPECIAL", {
-    name: "Haryali Chicken",
-    description: "Chicken marinated in mint, cilantro, green chili and spices, then grilled.",
-    price: "18.99",
-    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chicken_Hariyali_kebab.jpg?width=800"
-  });
-  addMenuItem("GOAT & LAMB ENTREES", {
-    name: "Rogan Josh Lamb",
-    description: "Lamb cooked in a rich, aromatic Kashmiri-style gravy.",
-    price: "19.99",
-    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Mutton_rogan_josh.jpg?width=800"
-  });
-  addMenuItem("BREAD", {
-    name: "Paneer Parantha",
-    description: "Whole-wheat flatbread stuffed with spiced paneer. Served with yogurt.",
-    price: "7.99",
-    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Paneer_Parantha.jpg?width=800"
-  });
-  addMenuItem("VEGETARIAN ENTREES", {
-    name: "Paneer Tikka Masala",
-    description: "Paneer tikka cooked in a rich and creamy tomato sauce.",
-    price: "17.99",
-    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Paneer_Tikka_Masala_(2026)_01.jpg?width=800"
-  });
-  addMenuItem("VEGETARIAN ENTREES", {
-    name: "Tofu Butter Curry",
-    description: "Tofu cooked in a rich, buttery tomato sauce.",
-    price: "17.99",
-    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Tofu_Tikka_Masala_with_Brown_Rice_and_Chilies_(4940054389).jpg?width=800"
-  });
-
   mount.innerHTML = "";
-  mount.appendChild(menuRoot);
   tabs.innerHTML = "";
 
   const categories = [];
   const featuredItems = [];
   let totalItems = 0;
-  let activateCategory = null;
 
-  mount.querySelectorAll(".category-item").forEach((section) => {
-    const titleElement = section.querySelector(":scope > div");
-    const grid = section.querySelector(":scope > div:nth-of-type(2)");
+  menu.forEach((category) => {
+    const id = slugify(category.name);
+    const section = document.createElement("section");
+    section.id = id;
+    section.className = "catalog-section";
 
-    if (!titleElement || !grid) {
-      return;
-    }
+    const title = document.createElement("h3");
+    title.className = "catalog-section__title";
+    title.textContent = category.name;
 
-    const rawTitle = titleElement.textContent.trim();
-    const title = rawTitle === "CHICEKN ENTREES" ? "CHICKEN ENTREES" : rawTitle;
-    const id = slugify(title);
-    [...grid.children].forEach((card) => {
-      const itemName = card.querySelector(":scope > div > div")?.textContent.trim().toLowerCase();
+    const grid = document.createElement("div");
+    grid.className = "catalog-grid";
 
-      if (itemName && MENU_ITEMS_TO_REMOVE.has(itemName)) {
-        card.remove();
+    category.items.forEach((item) => {
+      totalItems += 1;
+
+      const card = document.createElement("article");
+      card.className = "catalog-card";
+
+      const body = document.createElement("div");
+      body.className = "catalog-card__body";
+
+      const name = document.createElement("h4");
+      name.className = "catalog-card__name";
+      name.textContent = item.name;
+
+      const details = document.createElement("div");
+      details.className = "catalog-card__details";
+
+      if (item.description) {
+        const description = document.createElement("p");
+        description.className = "catalog-card__desc";
+        description.textContent = item.description;
+        details.appendChild(description);
+      }
+
+      const itemOptions = visibleOptions(category.name, item);
+
+      if (itemOptions.length) {
+        const options = document.createElement("ul");
+        options.className = "catalog-card__options";
+
+        itemOptions.forEach((group) => {
+          const option = document.createElement("li");
+          const label = document.createElement("strong");
+          label.textContent = `${group.name}: `;
+          option.append(label, group.choices.map(formatChoice).join(", "));
+          options.appendChild(option);
+        });
+
+        details.appendChild(options);
+      }
+
+      const price = document.createElement("p");
+      price.className = "catalog-card__price";
+      price.textContent = formatItemPrice(item);
+
+      const order = document.createElement("a");
+      order.className = "catalog-card__order";
+      order.href = ORDER_URL;
+      order.dataset.orderLink = "";
+      order.innerHTML = 'Order now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>';
+
+      body.append(name, details, price, order);
+      card.appendChild(body);
+
+      if (item.image) {
+        const image = document.createElement("img");
+        image.className = "catalog-card__image";
+        image.src = item.image;
+        image.alt = "";
+        image.loading = "lazy";
+        card.appendChild(image);
+      } else {
+        card.classList.add("catalog-card--text");
+      }
+
+      grid.appendChild(card);
+
+      if (featuredItems.length < 3 && item.image && item.description) {
+        featuredItems.push({
+          category: category.name,
+          name: item.name,
+          description: item.description,
+          price: formatItemPrice(item),
+          image: item.image
+        });
       }
     });
 
-    if (title === "CHICKEN ENTREES") {
-      const referenceCard = [...grid.children].find((card) =>
-        card.querySelector(":scope > div > div")?.textContent.trim() === "Chicken Curry"
-      );
-
-      if (referenceCard) {
-        const kormaCard = referenceCard.cloneNode(true);
-        const body = kormaCard.querySelector(":scope > div");
-        const name = body?.querySelector(":scope > div");
-        const description = body?.querySelector(":scope > div:nth-of-type(2) > div");
-        const price = body?.querySelector(":scope > div:nth-of-type(3)");
-
-        if (name) name.textContent = "Chicken Korma";
-        if (description) description.textContent = "A rich, velvety blend of aromatic spices and cream.";
-        if (price) price.textContent = "$ 18.99";
-        grid.appendChild(kormaCard);
-      }
-    }
-
-    const cards = [...grid.children];
-    const firstImage = cards[0]?.querySelector("img")?.src || "";
-
-    section.id = id;
-    section.classList.add("catalog-section");
-    titleElement.className = "catalog-section__title";
-    titleElement.textContent = title;
-
-    if (title.includes("ENTREES")) {
-      const riceNote = document.createElement("span");
-      riceNote.className = "catalog-section__rice-note";
-      riceNote.innerHTML = '<i class="fa-solid fa-bowl-rice" aria-hidden="true"></i> Complimentary rice with every entrée';
-      titleElement.appendChild(riceNote);
-    }
-
-    grid.className = "catalog-grid";
+    section.append(title, grid);
+    mount.appendChild(section);
 
     categories.push({
       id,
-      title,
-      image: firstImage
+      title: category.name,
+      image: category.items.find((item) => item.image)?.image || ""
     });
 
     const tab = document.createElement("button");
     tab.type = "button";
     tab.className = "menu-tab";
     tab.dataset.target = id;
-    tab.textContent = title;
+    tab.textContent = category.name;
     tabs.appendChild(tab);
-
-    cards.forEach((card) => {
-      totalItems += 1;
-      card.className = "catalog-card";
-
-      const cardBody = card.querySelector(":scope > div");
-      const image = card.querySelector("img");
-      const name = cardBody?.querySelector(":scope > div");
-      const details = cardBody?.querySelector(":scope > div:nth-of-type(2)");
-      const description = details?.querySelector("div");
-      const price = cardBody?.querySelector(":scope > div:nth-of-type(3)");
-
-      const menuPriceUpdates = {
-        "Chicken Wings": "$ 11.99",
-        "Daal Soup": "$ 7.99",
-        "Tandoori Shrimp": "$ 21.99",
-        "Tandoori Mix Grill": "$ 21.99",
-        "Chicken Curry": "$ 18.99",
-        "Chicken Tikka Masala": "$ 19.99",
-        "Methi Chicken": "$ 19.99",
-        "Chicken Korma": "$ 19.99",
-        "Baingan Bharta": "$ 15.99",
-        "Saag Chana": "$ 15.99",
-        "Bottled Water": "$ 1.50",
-        "Sparkling Water": "$ 2.50",
-        Kheer: "$ 4.99",
-        "Gulab Jamun": "$ 4.99",
-        "Ras Malai": "$ 5.99"
-      };
-
-      if (name && price && menuPriceUpdates[name.textContent.trim()]) {
-        price.textContent = menuPriceUpdates[name.textContent.trim()];
-      }
-
-      if (name && description && itemsServedWithYogurt.has(name.textContent.trim())) {
-        description.textContent = `${description.textContent.trim()} Served with yogurt.`;
-      }
-
-      if (cardBody) {
-        cardBody.className = "catalog-card__body";
-      }
-
-      if (name) {
-        name.className = "catalog-card__name";
-      }
-
-      if (details) {
-        details.className = "catalog-card__details";
-      }
-
-      if (description) {
-        description.className = "catalog-card__desc";
-      }
-
-      if (price) {
-        price.className = "catalog-card__price";
-      }
-
-      if (image) {
-        image.className = "catalog-card__image";
-        image.loading = "lazy";
-      }
-
-      if (featuredItems.length < 3 && image && name && price) {
-        featuredItems.push({
-          category: title,
-          name: name.textContent.trim(),
-          description: description?.textContent.trim() || "Freshly prepared at Lazeez Curry and Pizza.",
-          price: price.textContent.trim(),
-          image: image.src
-        });
-      }
-    });
   });
 
-  buildPopularCards(categories.slice(0, 4));
+  buildPopularCards(categories.filter((category) => category.image).slice(0, 4));
   buildFeaturedCards(featuredItems);
   populateFooter(categories);
   updateStats(totalItems, categories.length);
 
   const sections = [...mount.querySelectorAll(".catalog-section")];
 
-  activateCategory = (categoryId) => {
+  const activateCategory = (categoryId) => {
     sections.forEach((section) => {
       section.hidden = section.id !== categoryId;
     });
@@ -470,7 +288,7 @@ function buildMenuCatalog() {
 
   tabs.querySelectorAll(".menu-tab").forEach((tab) => {
     tab.addEventListener("click", () => {
-      activateCategory?.(tab.dataset.target);
+      activateCategory(tab.dataset.target);
     });
   });
 
@@ -479,7 +297,7 @@ function buildMenuCatalog() {
       const categoryId = link.dataset.categoryLink;
 
       if (categoryId) {
-        activateCategory?.(categoryId);
+        activateCategory(categoryId);
       }
     });
   });
@@ -515,8 +333,8 @@ function setupHeaderState() {
 }
 
 document.getElementById("year").textContent = new Date().getFullYear();
-setOrderLinks();
 buildMenuCatalog();
+setOrderLinks();
 setupHeaderState();
 
 // ── Announcement Popup ──────────────────────────────────
