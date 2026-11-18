@@ -121,7 +121,7 @@ p {
 }
 
 /* ── Announcement Popup ──────────────────────────────────── */
-/* Pizza coming soon announcement */
+/* Now serving wood-stone pizza */
 .pizza-coming {
   position: relative;
   z-index: 20;
@@ -248,9 +248,35 @@ p {
   font-size: 13px;
 }
 
+.pizza-coming__order {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #fff;
+  color: #5d0c19;
+  font-family: var(--heading-font);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.pizza-coming__order:hover,
+.pizza-coming__order:focus-visible {
+  background: var(--accent);
+  color: #5d0c19;
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
 @media (max-width: 640px) {
   .pizza-coming__inner {
+    flex-wrap: wrap;
     justify-content: flex-start;
+    align-items: flex-start;
     gap: 12px;
     min-height: 84px;
   }
@@ -262,13 +288,15 @@ p {
   }
 
   .pizza-coming__copy {
+    flex: 1 1 calc(100% - 70px);
     align-items: flex-start;
     flex-direction: column;
     gap: 5px;
+    min-width: 0;
   }
 
-  .pizza-coming__copy p span {
-    display: none;
+  .pizza-coming__order {
+    margin-left: 64px;
   }
 }
 
