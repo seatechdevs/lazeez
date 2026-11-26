@@ -332,7 +332,30 @@ function setupHeaderState() {
   });
 }
 
+// Delete with #thanksgiving-special and the .thanksgiving-special styles.
+// Hides the promo after the data-end date, at the end of that day in Pacific time.
+function hideThanksgivingSpecial() {
+  const promo = document.getElementById("thanksgiving-special");
+  const endDate = promo?.dataset.end;
+
+  if (!promo || !endDate) {
+    return;
+  }
+
+  const pacificDate = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Los_Angeles",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(new Date());
+
+  if (pacificDate > endDate) {
+    promo.remove();
+  }
+}
+
 document.getElementById("year").textContent = new Date().getFullYear();
+hideThanksgivingSpecial();
 buildMenuCatalog();
 setOrderLinks();
 setupHeaderState();

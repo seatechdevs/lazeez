@@ -152,6 +152,28 @@
     </div>
   </aside>
 
+  <!-- Thanksgiving special: delete this section, its styles, and hideThanksgivingSpecial() after Nov 27, 2026. It also removes itself after that date, Pacific time. -->
+  <section class="thanksgiving-special" id="thanksgiving-special" data-end="2026-11-27" aria-labelledby="thanksgivingTitle">
+    <div class="container thanksgiving-special__layout">
+      <figure class="thanksgiving-special__flyer">
+        <picture>
+          <source srcset="thanksgiving-special.webp" type="image/webp">
+          <img src="thanksgiving-special.jpg" width="1000" height="1094" decoding="async"
+            alt="Lazeez Thanksgiving special flyer: buy 3 pizzas, get the 4th free, November 25 through November 27. Same size only. The higher priced pizza is charged. This offer cannot be combined with another promo.">
+        </picture>
+      </figure>
+      <div class="thanksgiving-special__copy">
+        <h2 id="thanksgivingTitle">
+          <span class="thanksgiving-special__kicker">Thanksgiving Special —</span>
+          <span class="thanksgiving-special__deal">Buy 3 Pizzas, Get the 4th <strong>FREE</strong>.</span>
+          <span class="thanksgiving-special__when">Limited time only: Nov 25 – Nov 27.</span>
+          <span class="thanksgiving-special__terms">T&amp;C: Same size only. Price for the higher price pizza will be charged. No other promo can be combined.</span>
+        </h2>
+        <a class="btn btn-primary" data-order-link href="#">Order Online</a>
+      </div>
+    </div>
+  </section>
+
   <main>
     <section class="hero-section">
       <div class="container hero-grid">
