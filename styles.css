@@ -734,6 +734,94 @@ body.nav-open .nav-toggle span:nth-child(3) {
   flex: 0 0 auto;
 }
 
+/* Thanksgiving special — remove with the homepage section and hideThanksgivingSpecial(). */
+.thanksgiving-special {
+  padding: 28px 0 8px;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(242, 162, 42, 0.18), transparent 28%),
+    linear-gradient(180deg, #fff6ea 0%, #fff 100%);
+}
+
+.thanksgiving-special__layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.86fr) minmax(0, 1.14fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.thanksgiving-special__flyer {
+  margin: 0;
+}
+
+.thanksgiving-special__flyer img {
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.thanksgiving-special__copy h2 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 22px;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.45;
+  text-transform: none;
+}
+
+.thanksgiving-special__kicker {
+  color: var(--main);
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.thanksgiving-special__deal {
+  color: var(--ink);
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  text-transform: uppercase;
+}
+
+.thanksgiving-special__deal strong {
+  color: var(--main);
+}
+
+.thanksgiving-special__when {
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.thanksgiving-special__terms {
+  max-width: 38rem;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+@media (max-width: 860px) {
+  .thanksgiving-special {
+    padding: 20px 0 4px;
+  }
+
+  .thanksgiving-special__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .thanksgiving-special__flyer {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
 .hero-section {
   position: relative;
   overflow: hidden;
